@@ -16,11 +16,19 @@
     "express-validator": "^6.4.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.13",
+    "mongoose": "^5.9.14",
     "request": "^2.88.2"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
     "nodemon": "^2.0.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b3n3dict/Hooks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/b3n3dict/Hooks/issues"
+  },
+  "homepage": "https://github.com/b3n3dict/Hooks#readme"
 }
