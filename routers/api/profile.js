@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const request = require('request');
+const config = require('config');
 const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
@@ -140,6 +142,143 @@ router.delete('/', auth, async (req, res) => {
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).json('Server Error');
+	}
+});
+//route  put  api/profile/experience
+//  Add profile experience
+router.put(
+	'/experience',
+	[
+		auth,
+		[
+			check('title', 'Title is required').not().isEmpty(),
+			check('company', 'Company is required').not().isEmpty(),
+			check('from', 'From  is required').not().isEmpty()
+		]
+	],
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			res.status(500).json({ errors: errors.array() });
+		}
+		const { title, company, location, from, to, current, description } = req.body;
+
+		const newExp = {
+			title,
+			company,
+			location,
+			from,
+			to,
+			current,
+			description
+		};
+		try {
+			const profile = await Profile.findOne({ user: req.user.id });
+			profile.experience.unshift(newExp);
+
+			await profile.save();
+
+			res.json(profile);
+		} catch (err) {
+			console.error(err.message);
+			res.status(500).json('server error');
+		}
+	}
+);
+//route  delete  api/profile/experience/:exp_id
+//  delete experience from profile
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+	try {
+		const profile = await Profile.findOne({ user: req.user.id });
+		//get remove index
+		const removeIndex = profile.experience.map((item) => item.id).indexOf(req.params.exp_id);
+		profile.experience.splice(removeIndex, 1);
+		await profile.save();
+		res.json(profile);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).json('server error');
+	}
+});
+//route  put  api/profile/education
+//  Add profile education
+router.put(
+	'/education',
+	[
+		auth,
+		[
+			check('school', 'School is required').not().isEmpty(),
+			check('degree', 'Degree is required').not().isEmpty(),
+			check('fieldofstudy', 'Field of study is required').not().isEmpty(),
+			check('from', 'From  is required').not().isEmpty()
+		]
+	],
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			res.status(500).json({ errors: errors.array() });
+		}
+		const { school, degree, fieldofstudy, from, to, current, description } = req.body;
+
+		const newEdu = {
+			school,
+			degree,
+			fieldofstudy,
+			from,
+			to,
+			current,
+			description
+		};
+		try {
+			const profile = await Profile.findOne({ user: req.user.id });
+			profile.education.unshift(newEdu);
+
+			await profile.save();
+			res.json(profile);
+		} catch (err) {
+			console.error(err.message);
+			res.status(500).json('server error');
+		}
+	}
+);
+//route  delete  api/profile/education/:exp_id
+//  delete education from profile
+router.delete('/education/:edu_id', auth, async (req, res) => {
+	try {
+		const profile = await Profile.findOne({ user: req.user.id });
+		//get remove index
+		const removeIndex = profile.education.map((item) => item.id).indexOf(req.params.edu_id);
+		profile.education.splice(removeIndex, 1);
+		await profile.save();
+		res.json(profile);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).json('server error');
+	}
+});
+//route get api/profiles/github/:username
+//  get user respo from github
+router.get('/github/:username', (req, res) => {
+	try {
+		const options = {
+			uri: encodeURI(`https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`),
+			method: 'GET',
+			headers: {
+				'user-agent': 'node.js',
+				Authorization: `token ${config.get('githubToken')}`
+			}
+		};
+		request(options, (error, response, body) => {
+			if (error) console.error(error);
+
+			if (response.statusCode !== 200) {
+				return res.status(400).json({ msg: 'No github profiles founded' });
+			}
+			res.json(JSON.parse(body));
+		});
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).json('server error');
 	}
 });
 

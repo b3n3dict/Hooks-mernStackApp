@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const profileSchema = new mongoose.Schema({
+const profileSchema = new Schema({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: 'user'
@@ -29,9 +29,9 @@ const profileSchema = new mongoose.Schema({
 	githubusername: {
 		type: String
 	},
-	experirence: [
+	experience: [
 		{
-			titile: {
+			title: {
 				type: String,
 				required: true
 			},
