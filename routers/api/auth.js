@@ -5,8 +5,8 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
-const User = require('../../models/User');
 
+const User = require('../../models/User');
 //route get api/auth
 router.get('/', auth, async (req, res) => {
 	try {
@@ -17,7 +17,7 @@ router.get('/', auth, async (req, res) => {
 		res.status(500).send('server error');
 	}
 });
-//post api/auth  authenticate user & token
+//post api/auth  authenticate user & get token
 router.post(
 	'/',
 	[ check('email', 'Please Include an Email').isEmail(), check('password', 'Password is required').exists() ],
@@ -44,7 +44,7 @@ router.post(
 				}
 			};
 
-			jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 36000 }, (err, token) => {
+			jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
 				if (err) {
 					throw err;
 				}
