@@ -267,8 +267,7 @@ router.get('/github/:username', (req, res) => {
 			uri: encodeURI(`https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`),
 			method: 'GET',
 			headers: {
-				'user-agent': 'node.js',
-				Authorization: `token ${config.get('githubToken')}`
+				'user-agent': 'node.js'
 			}
 		};
 		request(options, (error, response, body) => {

@@ -6,7 +6,7 @@ const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
 const Profile = require('../../models/Profile');
-//route  post api/post
+//route  post api/posts
 // create a post
 // private
 
