@@ -13,7 +13,7 @@
   "author": "\"Benedict Xavier\"",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "bl": "^4.0.3",
     "config": "^3.3.2",
