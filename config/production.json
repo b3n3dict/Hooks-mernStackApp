@@ -1,5 +1,5 @@
 {
-    "mongoURI": "mongodb+srv://ben:benben123@hooks-o5fng.mongodb.net/test?retryWrites=true&w=majority",
+    "mongoURI": "mongodb+srv://ben:3QFHBqRKv26rtWFw@hooks-o5fng.mongodb.net/test?retryWrites=true&w=majority",
     "jwtSecret": "mysecerttoken",
     "githubClintId": "c5d04f0a73deb52cee02",
     "githubClintSecret": "07e0f9c477a279fdccb12ab4cdab6a4fc291dd97"
